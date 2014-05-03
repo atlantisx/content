@@ -22,7 +22,7 @@ class DocumentServiceProvider extends ServiceProvider {
     {
         $this->package('atlantis/content');
 
-        include __DIR__ . '/../../routes.php';
+        include __DIR__ . '/../../filters.php';
         include __DIR__ . '/../../routes.php';
 
         $this->app['events']->fire('atlantis.document.ready');
