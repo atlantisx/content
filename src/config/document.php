@@ -1,7 +1,7 @@
 <?php return array(
 
     'default' => array(
-        'pdf'   => 'zend',
+        'pdf'   => 'snappy',
         'image' => 'snappy'
     ),
 
