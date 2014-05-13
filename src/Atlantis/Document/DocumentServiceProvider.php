@@ -36,6 +36,8 @@ class DocumentServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        $this->registerDependencies();
+
         #i: Default PDF Processor
         $this->app['document.pdf'] = $this->app->share(function($app)
         {
@@ -62,6 +64,12 @@ class DocumentServiceProvider extends ServiceProvider {
             return $processor;
         });
     }
+
+
+    public function registerDependencies(){
+        $this->app->register('Codesleeve\Stapler\StaplerServiceProvider');
+    }
+
 
     /**
      * Get the services provided by the provider.
