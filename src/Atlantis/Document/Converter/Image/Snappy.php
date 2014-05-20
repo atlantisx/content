@@ -1,4 +1,4 @@
-<?php namespace Atlantis\Document\Processor\Image;
+<?php namespace Atlantis\Document\Converter\Image;
 /**
  * A Atlantis wrapper for SnappyPDF
  *
@@ -24,7 +24,7 @@ use Knp\Snappy\Image;
 class Snappy {
     protected $snappy;
 
-    public function __construct(){
+    public function __construct($app){
         $binary = \App::make('config')->get('content::document.snappy.image.binary');
         $options = \App::make('config')->get('content::document.snappy.image.options');
 

@@ -7,23 +7,36 @@ use Atlantis\Core\Controller\BaseController;
 
 class DocumentController extends BaseController {
 
-    public function getIndex(){
-        $pdf = App::make('document.pdf');
+    public function getDownload(){
+        $get = \Input::all();
 
-        $data = array(
-            'full_name' => 'Azri Jamil',
-            'idno_ic' => '810304115179',
-            'full_address' => 'Azri Jamil<br>B-5-8 Plaza Mont Kiara,<br>50480 Kuala Lumpur',
-            'offer_id' => '123456',
-            'date' => Carbon::now()->toDateString(),
-            'institution_name' => 'Universiti Islam Malaysia',
-            'course_name' => 'Pengajian Syariah',
-            'amount_text' => 'Dua Ribu Sahaja',
-            'amount_value' => '2000'
-        );
-
-        $letter = $pdf->loadView('application.advance.documents.approval',$data);
-        return $letter->download();
+        $name = 'transform'.studly_case($get['name']);
+        return $this->{$name}($get['uuid']);
     }
 
+
+    protected function transformApproval($uuid){
+        $record = \Record::find($uuid);
+
+        if($record){
+            $converter = \App::make('document.converter');
+
+            #i: Fetch and construct data from record
+            $address_state = \Code::category('state')->where('name',$record->user->profile->address_state)->first()->value;
+            $data = array(
+                'full_name' => $record->user->full_name,
+                'idno_ic' => $record->user->profile->idno_ic,
+                'full_address' => "{$record->user->full_name}<br>{$record->user->profile->address_street}<br>{$record->user->profile->address_postcode}, {$address_state}",
+                'offer_id' => '',
+                'institution_name' => $record->institution_name,
+                'course_name' => $record->application_coursed,
+                'amount_text' => $record->amount_approved_text,
+                'amount_value' => $record->amount_approved,
+                'date' => $record->updated_at->toDateString()
+            );
+
+            $letter = $converter('pdf.snappy')->loadView('advance::documents.approval',$data);
+            return $letter->download();
+        }
+    }
 }

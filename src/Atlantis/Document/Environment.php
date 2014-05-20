@@ -24,9 +24,6 @@ use \Illuminate\View\Environment as BaseEnvironment;
 
 class Environment extends BaseEnvironment {
 
-    public function __construct(){
-    }
-
     public function Processor($processor_name){
         try{
             #x: Processor name not provided exception

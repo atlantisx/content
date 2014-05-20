@@ -1,6 +1,7 @@
 <?php namespace Atlantis\Document;
 
 use Illuminate\Support\ServiceProvider;
+use Atlantis\Document\Converter\ConverterManager;
 
 
 class DocumentServiceProvider extends ServiceProvider {
@@ -22,6 +23,8 @@ class DocumentServiceProvider extends ServiceProvider {
     {
         $this->package('atlantis/content');
 
+        $this->registerConverters();
+
         include __DIR__ . '/../../filters.php';
         include __DIR__ . '/../../routes.php';
 
@@ -37,32 +40,7 @@ class DocumentServiceProvider extends ServiceProvider {
     public function register()
     {
         $this->registerDependencies();
-
-        #i: Default PDF Processor
-        $this->app['document.pdf'] = $this->app->share(function($app)
-        {
-            #i: Get default PDF processor
-            $pdf = $app['config']->get('content::document.default.pdf','zend');
-            $pdf = studly_case($pdf);
-
-            #i: Get processor instance
-            $processor = $this->app->make('Atlantis\\Document\\Processor\Pdf\\'.$pdf);
-
-            return $processor;
-        });
-
-        #i: Default Image Processor
-        $this->app['document.image'] = $this->app->share(function($app)
-        {
-            #i: Get default PDF processor
-            $image = $app['config']->get('content::document.default.image','snappy');
-            $image = studly_case($image);
-
-            #i: Get processor instance
-            $processor = $this->app->make('Atlantis\\Document\\Processor\Image\\'.$image);
-
-            return $processor;
-        });
+        $this->registerServiceConverter();
     }
 
 
@@ -71,6 +49,21 @@ class DocumentServiceProvider extends ServiceProvider {
     }
 
 
+    public function registerServiceConverter(){
+        $this->app['document.converter'] = $this->app->share(function($app){
+            return new ConverterManager($app);
+        });
+    }
+
+
+    public function registerConverters(){
+        #i: Registering PDF converter
+        $this->app['document.converter']->register('pdf','snappy',new \Atlantis\Document\Converter\Pdf\Snappy($this->app));
+
+        #i: Registering Image converter
+        $this->app['document.converter']->register('image','snappy',new \Atlantis\Document\Converter\Image\Snappy($this->app));
+    }
+
     /**
      * Get the services provided by the provider.
      *
@@ -78,7 +71,7 @@ class DocumentServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array('document.pdf', 'document.image');
+        return array('document.converter');
     }
 
 }

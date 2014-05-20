@@ -1,4 +1,4 @@
-<?php namespace Atlantis\Document\Processor\Pdf;
+<?php namespace Atlantis\Document\Converter\Pdf;
 /**
  * A Atlantis wrapper for SnappyPDF
  *
@@ -27,9 +27,9 @@ class Snappy{
     protected $options;
 
 
-    public function __construct($snappy=null){
-        $binary = \App::make('config')->get('content::document.snappy.pdf.binary');
-        $options = \App::make('config')->get('content::document.snappy.pdf.options');
+    public function __construct($app,$snappy=null){
+        $binary = $app['config']->get('content::document.snappy.pdf.binary');
+        $options = $app['config']->get('content::document.snappy.pdf.options');
 
         $this->snappy = new Pdf($binary,$options);
         $this->options = array();
@@ -164,6 +164,7 @@ class Snappy{
      */
     public function download($filename = 'document.pdf' ){
         $output = $this->output();
+
         return \Response::make($output, 200, array(
             'Content-Type' => 'application/pdf',
             'Content-Disposition' =>  'attachment; filename="'.$filename.'"'

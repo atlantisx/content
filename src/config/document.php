@@ -1,8 +1,13 @@
 <?php return array(
 
     'default' => array(
-        'pdf'   => 'snappy',
-        'image' => 'snappy'
+        'converter' => array(
+            'pdf'   => 'snappy',
+            'image' => 'snappy'
+        ),
+        'processor' => array(
+            'pdf' => 'zend'
+        )
     ),
 
 
