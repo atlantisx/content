@@ -18,10 +18,11 @@
  * @link       http://nematix.com
  */
 
+use Atlantis\Document\Converter\ConverterInterface;
 use Knp\Snappy\Pdf;
 
 
-class Snappy{
+class Snappy implements ConverterInterface{
     protected $snappy;
     protected $rendered = false;
     protected $options;
