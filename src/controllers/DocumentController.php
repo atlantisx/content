@@ -22,7 +22,10 @@ class DocumentController extends BaseController {
             $converter = \App::make('document.converter');
 
             #i: Fetch and construct data from record
-            $address_state = \Code::category('state')->where('name',$record->user->profile->address_state)->first()->value;
+            $address_state = '';
+            $address = \Code::category('state')->where('name',$record->user->profile->address_state)->first();
+            if($address) $address_state = $address->value;
+
             $data = array(
                 'full_name' => $record->user->full_name,
                 'idno_ic' => $record->user->profile->idno_ic,
@@ -35,8 +38,40 @@ class DocumentController extends BaseController {
                 'date' => $record->updated_at->toDateString()
             );
 
-            $letter = $converter('pdf.snappy')->loadView('advance::documents.approval',$data);
+            //return \View::make('advance::documents.approval',$data);
+
+            $letter = $converter('pdf')->loadView('advance::documents.approval',$data);
             return $letter->download();
         }
+    }
+
+
+    protected function transformApplication($uuid){
+        $record = \Record::find($uuid);
+
+        if($record){
+            #i: Get bank name
+            $bank_name = \Code::category('bank')->where('name',$record->user->profile->data->account_bank_code)->first() or '';
+            if($bank_name) $bank_name = $bank_name->value;
+
+            #i: Fetch and construct data from record
+            $data = array(
+                'detail' => $record
+            );
+            $data['detail']['id'] = '';
+            $data['detail']->user->profile->data->account_bank_name = $bank_name;
+
+            #i: Converter instance
+            $converter = \App::make('document.converter');
+
+            #i: Convert view
+            $letter = $converter('pdf')->loadView('advance::documents.application',$data);
+            return $letter->download();
+        }
+    }
+
+
+    protected function transformAgreement($uuid){
+
     }
 }
