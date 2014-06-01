@@ -8,6 +8,7 @@
             "email": "azri@nematix.com"
         }
     ],
+    "license": "MIT",
     "repositories": [
         {
             "type":"vcs",
