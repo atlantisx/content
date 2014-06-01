@@ -36,5 +36,5 @@
             "Atlantis\\Document\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
