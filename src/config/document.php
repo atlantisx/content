@@ -7,7 +7,8 @@
         ),
         'processor' => array(
             'pdf' => 'zend'
-        )
+        ),
+        'storage' => 's3'
     ),
 
 

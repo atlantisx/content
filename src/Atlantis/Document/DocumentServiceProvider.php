@@ -1,6 +1,7 @@
 <?php namespace Atlantis\Document;
 
 use Illuminate\Support\ServiceProvider;
+use Atlantis\Document\Storage\StorageManager;
 use Atlantis\Document\Converter\ConverterManager;
 
 
@@ -23,7 +24,8 @@ class DocumentServiceProvider extends ServiceProvider {
     {
         $this->package('atlantis/content');
 
-        $this->registerConverters();
+        $this->bootServiceStorages();
+        $this->bootServiceConverters();
 
         include __DIR__ . '/../../filters.php';
         include __DIR__ . '/../../routes.php';
@@ -39,13 +41,24 @@ class DocumentServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->registerDependencies();
+        $this->registerServiceStorage();
         $this->registerServiceConverter();
     }
 
 
-    public function registerDependencies(){
-        $this->app->register('Codesleeve\Stapler\StaplerServiceProvider');
+    public function bootServiceStorages(){
+        #i: Registering default storage drivers
+        $this->app['document.storage']->register('s3', new \Atlantis\Document\Storage\Driver\S3($this->app['config']));
+
+        #i: Booting storages
+        $this->app['document.storage']->boot();
+    }
+
+
+    public function registerServiceStorage(){
+        $this->app['document.storage'] = $this->app->share(function($app){
+            return new StorageManager($app);
+        });
     }
 
 
@@ -56,7 +69,7 @@ class DocumentServiceProvider extends ServiceProvider {
     }
 
 
-    public function registerConverters(){
+    public function bootServiceConverters(){
         #i: Registering PDF converter
         $this->app['document.converter']->register('pdf','snappy',new \Atlantis\Document\Converter\Pdf\Snappy($this->app));
 

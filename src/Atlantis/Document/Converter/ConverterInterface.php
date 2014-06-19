@@ -9,5 +9,7 @@ interface ConverterInterface {
     public function save($filename);
     public function download($filename);
     public function stream($filename);
+    //public function accepts();
+    //public function converts();
 
 }
