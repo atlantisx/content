@@ -9,16 +9,10 @@
         }
     ],
     "license": "MIT",
-    "repositories": [
-        {
-            "type":"vcs",
-            "url": "https://github.com/wajatimur/stapler.git"
-        }
-    ],
     "require": {
         "php": ">=5.4",
-        "illuminate/support": "4.1.*",
-        "codesleeve/stapler": "dev-master",
+        "illuminate/support": "~4.2",
+        "codesleeve/stapler": "~1",
         "zendframework/zendpdf": "2.0.*@dev",
         "h4cc/wkhtmltopdf-i386": "*",
         "h4cc/wkhtmltopdf-amd64": "*",
