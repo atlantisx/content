@@ -10,8 +10,8 @@
     |
     */
     's3_client_config' => [
-        'key' => '',
-        'secret' => '',
+        'key' => 'AKIAJKCQ4JX67OXN2VFQ',
+        'secret' => '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',
         'region' => '',
         'scheme' => 'http'
     ],
@@ -26,7 +26,7 @@
     |
     */
     's3_object_config' => [
-        'Bucket' => '',
+        'Bucket' => 'mara.advance-documents',
         'ACL' => 'public-read'
     ],
 
