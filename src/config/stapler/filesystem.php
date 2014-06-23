@@ -12,7 +12,7 @@
     |
     */
 
-    'url' => '/system/:class/:attachment/:id_partition/:style/:filename',
+    'url' => '/upload/:class/:attachment/:id_partition/:style/:filename',
 
     /*
     |--------------------------------------------------------------------------
