@@ -35,10 +35,8 @@ class DocumentController extends BaseController {
                 'course_name' => $record->application_coursed,
                 'amount_text' => $record->amount_approved_text,
                 'amount_value' => $record->amount_approved,
-                'date' => $record->updated_at->toDateString()
+                'date' => $record->updated_at->format('d M Y')
             );
-
-            //return \View::make('advance::documents.approval',$data);
 
             $letter = $converter('pdf')->loadView('advance::documents.approval',$data);
             return $letter->download();
