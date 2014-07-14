@@ -26,11 +26,13 @@ class DocumentController extends BaseController {
             $address = \Code::category('state')->where('name',$record->user->profile->address_state)->first();
             if($address) $address_state = $address->value;
 
+            $offer_id = app('atlantis.helpers')->advance->applicationIdGenerator($record);
+
             $data = array(
                 'full_name' => $record->user->full_name,
                 'idno_ic' => $record->user->profile->idno_ic,
-                'full_address' => "{$record->user->full_name}<br>{$record->user->profile->address_street}<br>{$record->user->profile->address_postcode}, {$address_state}",
-                'offer_id' => '',
+                'full_address' => "{$record->user->full_name}<br>{$record->user->profile->address_street}<br>{$record->user->profile->address_postcode} {$address_state}",
+                'offer_id' => $offer_id,
                 'institution_name' => $record->institution_name,
                 'course_name' => $record->application_coursed,
                 'amount_text' => $record->amount_approved_text,
@@ -72,4 +74,5 @@ class DocumentController extends BaseController {
     protected function transformAgreement($uuid){
 
     }
+
 }
