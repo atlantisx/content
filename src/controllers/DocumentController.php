@@ -40,8 +40,10 @@ class DocumentController extends BaseController {
                 'date' => $record->updated_at->format('d M Y')
             );
 
+            $filename = \Config::get('advance::documents.file_name_offer_letter');
+
             $letter = $converter('pdf')->loadView('advance::documents.approval',$data);
-            return $letter->download();
+            return $letter->download($filename);
         }
     }
 
