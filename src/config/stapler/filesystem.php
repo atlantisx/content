@@ -12,7 +12,7 @@
     |
     */
 
-    'url' => url('/upload/:class/:attachment/:id_partition/:style/:filename'),
+    'url' => \Illuminate\Support\Facades\Config::get('app.url'). '/upload/:class/:attachment/:id_partition/:style/:filename',
 
     /*
     |--------------------------------------------------------------------------
