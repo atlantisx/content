@@ -12,7 +12,7 @@
     |
     */
 
-    'url' => '/upload/:class/:attachment/:id_partition/:style/:filename',
+    'url' => app('config')->get('app.url') . '/upload/:class/:attachment/:id_partition/:style/:filename',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@
     |
     */
 
-    'path' => ':app_root/public/:url',
+    'path' => ':app_root/public/upload/:class/:attachment/:id_partition/:style/:filename',
 
     /*
     |--------------------------------------------------------------------------
