@@ -8,7 +8,7 @@
     |
     */
 
-    'public_path' => '',
+    'public_path' => public_path(),
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@
     |
     */
 
-    'base_path' => '',
+    'base_path' => base_path(),
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@
     |
     */
 
-    'image_processing_library' => 'Imagine\Gd\Imagine',
+    'image_processing_library' => 'Imagine\Imagick\Imagine',
 
 
     /*
