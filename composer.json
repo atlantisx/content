@@ -22,10 +22,7 @@
         "aws/aws-sdk-php": "2.7.*@dev"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations",
-            "src/controllers"
-        ],
+        "classmap": [],
         "psr-0": {
             "Atlantis\\Content\\": "src/",
             "Atlantis\\Document\\": "src/"
